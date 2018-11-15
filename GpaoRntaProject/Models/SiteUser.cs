@@ -11,12 +11,18 @@ namespace GpaoRntaProject.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class SiteUser
     {
         public int ID { get; set; }
+        [Required(ErrorMessage = "Ce champ est requis")]
         public string Username { get; set; }
+        [Required(ErrorMessage = "Ce champ est requis")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+        [Required(ErrorMessage = "Ce champ est requis")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
         public Nullable<bool> IsValid { get; set; }
     }

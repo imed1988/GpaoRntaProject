@@ -1,0 +1,76 @@
+﻿@model GpaoRntaProject.Models.SiteUser
+@{ 
+    Layout = null;
+}
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal " style="background-color:white; margin:30%; margin-top:10%; width:50%; ">
+    <h4>Register</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+
+        <div class="input-group" style="width:50%; left:20%">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <div>
+                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", @placeholder = "UserName" } })
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="input-group" style="width:50%; left:20%; top:10px">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+            <div>
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="input-group" style="width:50%; left:20%; top:20px;">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+
+            <div>
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Password" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="form-group">
+        <div class="input-group" style="width:50%; left:30%; top:20px;">
+            @Html.LabelFor(model => model.IsValid, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IsValid, new { htmlAttributes = new { @class = "form-control", @style = "width:50%" } })
+                @Html.ValidationMessageFor(model => model.IsValid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group" style="align-content:center">
+        <div style="width:20%">
+            <button class="btn btn-info form-control" type="submit"><i class="glyphicon glyphicon-check"></i> S'Inscrire</button>
+
+        </div>
+    </div>
+
+   
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-2">
+            <label type="submit" value="Submit" class="label-success">@ViewBag.SuccessMessage</label>
+        </div>
+    </div>
+</div>
+}
+
+

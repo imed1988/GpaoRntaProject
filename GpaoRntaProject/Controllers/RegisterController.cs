@@ -9,26 +9,47 @@ namespace GpaoRntaProject.Controllers
 {
     public class RegisterController : Controller
     {
-        DBEntities db = new DBEntities();
-
         // GET: Register
         public ActionResult Index()
         {
-            
             return View();
         }
 
-
-      
-        public JsonResult InsertUser(SiteUser user)
+        public ActionResult AddOrEdit()
         {
-            db.SiteUser.Add(user);
-            db.SaveChanges();
-            return Json("success", JsonRequestBehavior.AllowGet);
+            return AddOrEdit();
         }
 
 
+        //[HttpPost]
+        //public ActionResult AddOrEdit(SiteUser users)
+        //{
+        //    return View();
+        //}
 
+
+
+        [HttpGet]
+        public ActionResult AddOrEdit(int id=0)
+        {
+            SiteUser userModel = new SiteUser();
+            return View(userModel);
+
+        }
+
+        [HttpPost]
+        public ActionResult AddOrEdit(SiteUser user)
+        {
+            using (DBEntities dbmodel = new DBEntities())
+            {
+                dbmodel.SiteUser.Add(user);
+                dbmodel.SaveChanges();
+            }
+
+            ModelState.Clear();
+            ViewBag.SuccessMessage = "Registration Successful";
+            return View("Index", new SiteUser());
+        }
 
     }
 }
