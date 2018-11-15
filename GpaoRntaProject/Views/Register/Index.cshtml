@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-            <div class="form-group" >
+            <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                     <input class="form-control" type="password" name="Password" id="LogPassword" placeholder="Password" />
@@ -34,12 +34,10 @@
             <button class="btn btn-info form-control" type="submit"><i class="glyphicon glyphicon-log-in"></i> Connexion</button>
         </div>
         <div class="form-group">
-            <a style="align-self:center">Mot de passe oublié ?</a>
+            <a style="float:left">Mot de passe oublié ?</a>
             @*<a style="float:right; cursor:pointer" onclick="SignUp()" >SignUp</a>*@
-   
-            <a  class="btn-block" style="float:right; cursor:pointer" >S'Inscrire</a>
-    
-            <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("AddOrEdit","Register")'/>
+       <a class="btn-block" style="float:right; cursor:pointer">S'Inscrire</a>
+    <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("AddOrEdit","Register")'/>
             <script>
                 $(document).ready(function () {
                     $('.btn-block').click(function () {
