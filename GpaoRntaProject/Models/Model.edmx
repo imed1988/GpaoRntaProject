@@ -5,6 +5,13 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="SiteUser">
           <Key>
             <PropertyRef Name="ID" />
@@ -14,15 +21,41 @@
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" />
           <Property Name="IsValid" Type="bit" />
+          <Property Name="RoleID" Type="int" />
         </EntityType>
+        <Association Name="FK_SiteUser_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="SiteUser" Type="Self.SiteUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="SiteUser">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="DBModelStoreContainer">
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SiteUser" EntityType="Self.SiteUser" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_SiteUser_Role" Association="Self.FK_SiteUser_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="SiteUser" EntitySet="SiteUser" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SiteUser" Relationship="Self.FK_SiteUser_Role" FromRole="Role" ToRole="SiteUser" />
+        </EntityType>
         <EntityType Name="SiteUser">
           <Key>
             <PropertyRef Name="ID" />
@@ -32,9 +65,28 @@
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsValid" Type="Boolean" />
+          <Property Name="RoleID" Type="Int32" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_SiteUser_Role" FromRole="SiteUser" ToRole="Role" />
         </EntityType>
+        <Association Name="FK_SiteUser_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="SiteUser" Type="Self.SiteUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="SiteUser">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="DBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Role" EntityType="Self.Role" />
           <EntitySet Name="SiteUser" EntityType="Self.SiteUser" />
+          <AssociationSet Name="FK_SiteUser_Role" Association="Self.FK_SiteUser_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="SiteUser" EntitySet="SiteUser" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -42,6 +94,14 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DBModelStoreContainer" CdmEntityContainer="DBEntities">
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="DBModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="SiteUser">
             <EntityTypeMapping TypeName="DBModel.SiteUser">
               <MappingFragment StoreEntitySet="SiteUser">
@@ -50,6 +110,7 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

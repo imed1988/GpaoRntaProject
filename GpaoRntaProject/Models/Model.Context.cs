@@ -25,6 +25,7 @@ namespace GpaoRntaProject.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<SiteUser> SiteUser { get; set; }
     }
 }

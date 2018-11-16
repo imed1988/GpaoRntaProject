@@ -12,15 +12,18 @@ namespace GpaoRntaProject.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SiteUser
+    public partial class Role
     {
-        public int ID { get; set; }
-        public string Username { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public Nullable<bool> IsValid { get; set; }
-        public Nullable<int> RoleID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Role()
+        {
+            this.SiteUser = new HashSet<SiteUser>();
+        }
     
-        public virtual Role Role { get; set; }
+        public int RoleID { get; set; }
+        public string RoleName { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SiteUser> SiteUser { get; set; }
     }
 }
